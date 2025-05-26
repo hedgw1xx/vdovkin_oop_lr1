@@ -116,11 +116,11 @@ int main(int argc, char *argv[]) {
           displayMap(studentMap);
         }}},
       {11,
-       {"Find student in <map> by ID",
+       {"Find student in <map> by age",
         [&]() {
           int targetId;
-          EnterNumber(targetId, "Enter student ID to find: ")();
-          findStudentById(studentMap, targetId);
+          Enter(cin, targetId, "Enter student ID to find: ")();
+          findStudentByKey(studentMap, targetId);
         }}},
       {12,
        {"Create and show <set> of IDs",
@@ -132,13 +132,13 @@ int main(int argc, char *argv[]) {
         }}},
       {13,
        {"Check unique IDs and age 21",
-        []() {
-          if (checkUniqueId(students)) {
+        [&idSet]() {
+          if (checkUniqueAge(students)) {
             cout << "All IDs are unique." << endl;
           } else {
             cout << "There are duplicate IDs." << endl;
           }
-          if (checkAge21(students)) {
+          if (checkAge21(idSet)) {
             cout << "There is a student with age 21." << endl;
           } else {
             cout << "No student with age 21." << endl;
@@ -156,7 +156,7 @@ int main(int argc, char *argv[]) {
        {"Extract from <stack> until specific ID",
         [&]() {
           int targetId;
-          EnterNumber(targetId, "Enter student ID to find: ")();
+          Enter(cin, targetId, "Enter student ID to find: ")();
           cout << "Extracting until ID " << targetId << ":" << endl;
           extractUntilId(studentStack, targetId);
         }}},
@@ -174,7 +174,7 @@ int main(int argc, char *argv[]) {
     }
     cout << "• 0. Exit" << endl;
 
-    EnterNumber(choice, "Enter your choice: ")();
+    Enter(cin, choice, "Enter your choice: ")();
 
     if (choice == 0) {
       cout << "© 2025 Eugene Vdovkin" << endl;

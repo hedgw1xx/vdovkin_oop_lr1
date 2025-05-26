@@ -7,6 +7,6 @@ inline int countVowels(const string &str);
 inline void fillMapFromVector(const vector<Student> &students,
                               map<int, Student> &studentMap);
 inline void displayMap(const map<int, Student> &studentMap);
-inline void findStudentById(const map<int, Student> &studentMap, int targetId);
+inline void findStudentByKey(const map<int, Student> &studentMap, int targetId);
 
 #endif // VDOVKIN_LR1_MAP_H

@@ -2,10 +2,11 @@
 #define VDOVKIN_LR1_SET_CPP
 
 #include "vdovkin_LR1_set.hpp"
+#include "vdovkin_LR1_structure_STL_def.hpp"
 
 void createIdSet(const vector<Student> &students, set<int> &idSet) {
   for (const auto &student : students) {
-    idSet.insert(student.id);
+    idSet.insert(student.age);
   }
 }
 
@@ -16,21 +17,17 @@ void displaySet(const set<int> &idSet) {
   cout << endl;
 }
 
-bool checkUniqueId(const vector<Student> &students) {
+bool checkUniqueAge(const vector<Student> &students) {
   set<int> idSet;
-  for (const auto &student : students) {
-    if (!idSet.insert(student.id).second) {
-      return false;
-    }
+  if (idSet.size() == students.size()) {
+    return false;
   }
   return true;
 }
 
-bool checkAge21(const vector<Student> &students) {
-  for (const auto &student : students) {
-    if (student.age == 21) {
-      return true;
-    }
+bool checkAge21(const set<int> &idSet) {
+  if (idSet.count(21) > 0) {
+    return true;
   }
   return false;
 }

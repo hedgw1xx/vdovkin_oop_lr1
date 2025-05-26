@@ -29,14 +29,13 @@ void displayMap(const map<int, Student> &studentMap) {
   }
 }
 
-void findStudentById(const map<int, Student> &studentMap, int targetId) {
-  for (const auto &pair : studentMap) {
-    if (pair.second.id == targetId) {
-      pair.second.print();
-      return;
-    }
+void findStudentByKey(const map<int, Student> &studentMap, int targetKey) {
+  auto it = studentMap.find(targetKey);
+  if (it != studentMap.end()) {
+    it->second.print();
+  } else {
+    cout << "Student with key " << targetKey << " not found." << endl;
   }
-  cout << "Student with ID " << targetId << " not found." << endl;
 }
 
 #endif // VDOVKIN_LR1_MAP_CPP

@@ -101,45 +101,48 @@ inline void clearTerminal() {
 #endif
 }
 
-inline bool UserInput(string input) {
+template <typename T> inline bool UserInput(string input) {
   if (input.empty())
     return false;
   try {
-    int number = stoi(input);
+    if constexpr (is_same_v<T, int> || is_same_v<T, bool>) {
+      int number = stoi(input);
+      if constexpr (is_same_v<T, bool>) {
+        return number == 0 || number == 1;
+      }
+      return number >= 0;
+    } else if constexpr (is_same_v<T, double>) {
+      double number = stod(input);
+      return number >= 0.0;
+    } else if constexpr (is_same_v<T, string>) {
+      return true;
+    }
   } catch (...) {
     return false;
   }
   return true;
 }
 
-inline bool UserInputString(string input) {
-  if (input.empty())
-    return false;
-  return true;
-}
-
-function<void()> inline EnterNumber(int &varLink, string label) {
-  return [&varLink, label]() {
+template <typename T>
+function<void()> Enter(istream &is, T &varLink, string label) {
+  return [&is, &varLink, label]() {
     string raw_input;
     cout << label;
-    getline(cin, raw_input);
+    getline(is, raw_input);
 
-    while (!UserInput(raw_input)) {
+    while (!UserInput<T>(raw_input)) {
       cout << label;
-      getline(cin, raw_input);
+      getline(is, raw_input);
     }
-    varLink = stoi(raw_input);
-  };
-}
 
-function<void()> inline EnterString(string &varLink, string label) {
-  return [&varLink, label]() {
-    cout << label;
-    getline(cin, varLink);
-
-    while (!UserInputString(varLink)) {
-      cout << label;
-      getline(cin, varLink);
+    if constexpr (is_same_v<T, int>) {
+      varLink = stoi(raw_input);
+    } else if constexpr (is_same_v<T, double>) {
+      varLink = stod(raw_input);
+    } else if constexpr (is_same_v<T, bool>) {
+      varLink = static_cast<bool>(stoi(raw_input));
+    } else if constexpr (is_same_v<T, string>) {
+      varLink = raw_input;
     }
   };
 }
@@ -147,8 +150,9 @@ function<void()> inline EnterString(string &varLink, string label) {
 // Чтение студента с клавиатуры
 Student inline readStudentFromInput() {
   string input;
-  EnterString(input, "Enter student data (e.g., \"John "
-                     "Doe,123456,20,5,4,5,3,4\"): ")();
+  Enter(cin, input,
+        "Enter student data (e.g., \"John "
+        "Doe,123456,20,5,4,5,3,4\"): ")();
 
   stringstream ss(input);
   string fullName, surname, name;
