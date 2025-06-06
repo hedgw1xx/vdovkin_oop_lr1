@@ -15,7 +15,7 @@ void transferToListDeque(const list<Student> &studentList,
     }
   }
   if (diffEnabled) {
-    printDiff(oldState, studentDeque, "vector");
+    printDiff(oldState, studentDeque, "deque");
   }
 }
 
@@ -31,6 +31,7 @@ void printFirstAndLastThree(const deque<Student> &studentDeque) {
     Student s = tempFront.front();
     tempFront.pop_front();
     s.print();
+    cout << endl;
   }
   auto tempBack = studentDeque;
   for (size_t i = 0; i < tempBack.size() - 3 && !tempBack.empty(); ++i) {

@@ -7,6 +7,7 @@
 #include "vdovkin_LR1_vector.cpp"
 
 bool diffEnabled = false;
+bool wasDiffEnabled = false;
 
 // Глобальный вектор студентов для синхронизации данных
 vector<Student> students;
@@ -24,6 +25,7 @@ int main(int argc, char *argv[]) {
   for (int i = 1; i < argc; ++i) {
     if (strcmp(argv[i], "-d") == 0) {
       diffEnabled = true;
+      wasDiffEnabled = true;
     } else if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0) {
       printHelp();
       return 0;
@@ -61,6 +63,7 @@ int main(int argc, char *argv[]) {
           Student newStudent = readStudentFromInput();
           addStudentToVector(students, newStudent);
           cout << "Student added to <vector>." << endl;
+          displayVector(students);
         }}},
       {4,
        {"Sort students by third grade",
@@ -76,22 +79,27 @@ int main(int argc, char *argv[]) {
       {6,
        {"Delete students from <list> with ID multiple of 11",
         [&]() {
+          diffEnabled = true;
           cout << "Students with ID multiple of 11 removed from <list>:"
                << endl;
           removeStudentsWithIdMultipleOf11(studentList);
           // Обновляем вектор
           students.clear();
           students.assign(studentList.begin(), studentList.end());
+          if (!wasDiffEnabled) {
+            diffEnabled = false;
+          }
         }}},
       {7,
        {"Add student to the middle of <list> ",
         [&]() {
           Student newStudent = readStudentFromInput();
-          cout << "Student added to middle of <list>:" << endl;
+          cout << "Student added to middle of <list>" << endl;
           insertStudentInMiddle(studentList, newStudent);
           // Обновляем вектор
           students.clear();
           students.assign(studentList.begin(), studentList.end());
+          displayList(studentList);
         }}},
       {8,
        {"Create and show <deque> Student",
@@ -127,7 +135,7 @@ int main(int argc, char *argv[]) {
         [&]() {
           idSet.clear();
           createIdSet(students, idSet);
-          cout << "<set> of IDs created and displayed:" << endl;
+          cout << "<set> of IDs' ages created and displayed:" << endl;
           displaySet(idSet);
         }}},
       {13,

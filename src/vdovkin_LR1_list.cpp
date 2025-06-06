@@ -18,7 +18,7 @@ void removeStudentsWithIdMultipleOf11(list<Student> &studentList) {
   list<Student> oldState = studentList; // Сохраняем старое состояние
   studentList.remove_if([](const Student &s) { return s.id % 11 == 0; });
   if (diffEnabled) {
-    printDiff(oldState, studentList, "vector");
+    printDiff(oldState, studentList, "list");
   }
 }
 
